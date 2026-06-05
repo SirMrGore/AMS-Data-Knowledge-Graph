@@ -46,7 +46,7 @@ net = Network(
 net.force_atlas_2based()
 
 for row in g.query(query):
-    obs, date, region, gender, age, nationality, commitment, health, bestand, zugang, abgang = row
+    obs, date, region, gender, age, nationality, commitment, health, bestand, zugang, abgang = row # type: ignore
 
     obs_id = str(obs).split("#")[-1]
 
