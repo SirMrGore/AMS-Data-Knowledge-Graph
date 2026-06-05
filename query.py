@@ -1,56 +1,107 @@
 from rdflib import Graph
+import csv
+
+TTL_FILE = "labour_market.ttl"
 
 g = Graph()
-g.parse("labour_market.ttl", format="ttl")
+g.parse(TTL_FILE, format="ttl")
 
 queries = {
-    "Top 10 regions by Bestand": """
-    PREFIX : <http://example.org/ams#>
+    "1_structure_sample": """
+PREFIX : <http://example.org/ams#>
 
-    SELECT ?region (SUM(?bestand) AS ?totalBestand)
-    WHERE {
-      ?obs a :Observation ;
-           :region ?r ;
-           :bestand ?bestand .
-      ?r :rgsName ?region .
-    }
-    GROUP BY ?region
-    ORDER BY DESC(?totalBestand)
-    LIMIT 10
-    """,
+SELECT ?obs ?region ?gender ?nationality ?bestand
+WHERE {
+  ?obs a :Observation ;
+       :region ?r ;
+       :gender ?g ;
+       :nationality ?n ;
+       :bestand ?bestand .
 
-    "Bestand by gender": """
-    PREFIX : <http://example.org/ams#>
+  ?r :rgsName ?region .
+  ?g :label ?gender .
+  ?n :label ?nationality .
+}
+LIMIT 10
+""",
 
-    SELECT ?gender (SUM(?bestand) AS ?totalBestand)
-    WHERE {
-      ?obs a :Observation ;
-           :gender ?g ;
-           :bestand ?bestand .
-      ?g :label ?gender .
-    }
-    GROUP BY ?gender
-    ORDER BY DESC(?totalBestand)
-    """,
+    "2_top_regions_2019_01_31": """
+PREFIX : <http://example.org/ams#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-    "Eisenstadt by nationality": """
-    PREFIX : <http://example.org/ams#>
+SELECT ?region (SUM(?bestand) AS ?total)
+WHERE {
+  ?obs a :Observation ;
+       :date "2019-01-31"^^xsd:date ;
+       :region ?r ;
+       :bestand ?bestand .
 
-    SELECT ?nationality (SUM(?bestand) AS ?totalBestand)
-    WHERE {
-      ?obs a :Observation ;
-           :region ?r ;
-           :nationality ?n ;
-           :bestand ?bestand .
-      ?r :rgsName "Eisenstadt" .
-      ?n :label ?nationality .
-    }
-    GROUP BY ?nationality
-    ORDER BY DESC(?totalBestand)
-    """
+  ?r :rgsName ?region .
+}
+GROUP BY ?region
+ORDER BY DESC(?total)
+LIMIT 10
+""",
+
+    "3_gender_nationality_2019_01_31": """
+PREFIX : <http://example.org/ams#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?gender ?nationality (SUM(?bestand) AS ?total)
+WHERE {
+  ?obs a :Observation ;
+       :date "2019-01-31"^^xsd:date ;
+       :gender ?g ;
+       :nationality ?n ;
+       :bestand ?bestand .
+
+  ?g :label ?gender .
+  ?n :label ?nationality .
+}
+GROUP BY ?gender ?nationality
+ORDER BY DESC(?total)
+""",
+
+    "4_time_trend": """
+PREFIX : <http://example.org/ams#>
+
+SELECT ?date (SUM(?bestand) AS ?total)
+WHERE {
+  ?obs a :Observation ;
+       :date ?date ;
+       :bestand ?bestand .
+}
+GROUP BY ?date
+ORDER BY ?date
+"""
 }
 
-for title, query in queries.items():
-    print("\n===", title, "===")
-    for row in g.query(query):
-        print(row)
+with open("query_results.md", "w", encoding="utf-8") as md, \
+     open("query_results.csv", "w", encoding="utf-8", newline="") as csvfile:
+
+    writer = csv.writer(csvfile)
+    writer.writerow(["query_name", "columns", "values"])
+
+    md.write("# SPARQL Query Results\n\n")
+    md.write(f"Triple count: **{len(g)}**\n\n")
+
+    for name, query in queries.items():
+        result = g.query(query)
+        columns = [str(v) for v in result.vars] # type: ignore
+
+        md.write(f"## {name}\n\n")
+        md.write("```sparql\n")
+        md.write(query.strip())
+        md.write("\n```\n\n")
+
+        md.write("| " + " | ".join(columns) + " |\n")
+        md.write("| " + " | ".join(["---"] * len(columns)) + " |\n")
+
+        for row in result:
+            values = [str(value) for value in row] # type: ignore
+            md.write("| " + " | ".join(values) + " |\n")
+            writer.writerow([name, ", ".join(columns), " | ".join(values)])
+
+        md.write("\n")
+
+print("Saved query_results.md and query_results.csv")
