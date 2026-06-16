@@ -208,7 +208,7 @@ Fifth, the project does not implement embeddings, link prediction, graph neural 
 
 #### LO7: Creating a Knowledge Graph
 
-The project creates a Knowledge Graph from a real Austrian labour market dataset. Each CSV row is transformed into an RDF observation, and each observation is linked to reusable semantic dimensions.
+I have created a Knowledge Graph from a real Austrian labour market dataset. Each CSV row is transformed into an RDF observation, and each observation is linked to reusable semantic dimensions.
 
 Evidence:
 
@@ -219,8 +219,6 @@ Evidence:
 * SPARQL queries over the graph
 
 #### LO9: Real-world Knowledge Graph Applications
-
-This is the second main learning outcome addressed by the project.
 
 The Knowledge Graph is applied to real labour market data and supports practical analysis questions about regions, demographic groups, and time trends.
 
