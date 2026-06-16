@@ -8,7 +8,7 @@ g = Graph()
 g.parse(TTL_FILE, format="ttl")
 
 query = """
-BASE_URI = "https://w3id.org/ams-labour-market#"
+PREFIX : <https://w3id.org/ams-labour-market#>
 
 SELECT ?obs ?date ?region ?gender ?age ?nationality ?commitment ?health ?bestand ?zugang ?abgang
 WHERE {
