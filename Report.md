@@ -1,7 +1,7 @@
 # Report: Analysis and Semantic Integration of Austrian Labour Market Data
 
-Github Repository[https://github.com/SirMrGore/AMS-Data-Knowledge-Graph], containing README with database links.
-data.gv[https://www.data.gv.at/katalog/datasets/cfe2ff7e9ad53c1ee053c630070ab111], containing original dataset.
+- [GitHub Repository](https://github.com/SirMrGore/AMS-Data-Knowledge-Graph), containing README with code descriptions.
+- [data.gv.at Dataset](https://www.data.gv.at/katalog/datasets/cfe2ff7e9ad53c1ee053c630070ab111), containing the original data.
 
 ## 1. Project Aim
 
