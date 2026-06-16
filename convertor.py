@@ -4,6 +4,9 @@ import re
 INPUT = "Gesamtuebersicht_AL_RGS.csv"
 OUTPUT = "labour_market.ttl"
 
+BASE_URI = "https://w3id.org/ams-labour-market#"
+
+
 def clean(value):
     value = value.strip()
     value = value.replace("ä", "ae").replace("ö", "oe").replace("ü", "ue")
@@ -12,10 +15,11 @@ def clean(value):
     value = re.sub(r"[^A-Za-z0-9]+", "_", value)
     return value.strip("_")
 
+
 with open(INPUT, encoding="cp1252") as f, open(OUTPUT, "w", encoding="utf-8") as out:
     reader = csv.DictReader(f, delimiter=";")
 
-    out.write("@prefix : <http://example.org/ams#> .\n")
+    out.write(f"@prefix : <{BASE_URI}> .\n")
     out.write("@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n")
 
     for i, row in enumerate(reader, start=1):
@@ -39,7 +43,11 @@ with open(INPUT, encoding="cp1252") as f, open(OUTPUT, "w", encoding="utf-8") as
         out.write(f'  :zugang "{row["ZUGANG"]}"^^xsd:integer ;\n')
         out.write(f'  :abgang "{row["ABGANG"]}"^^xsd:integer .\n\n')
 
-        out.write(f'{region} a :AMSRegion ; :rgsCode "{row["RGSCode"]}" ; :rgsName "{row["RGSName"]}" .\n')
+        out.write(
+            f'{region} a :AMSRegion ; '
+            f':rgsCode "{row["RGSCode"]}" ; '
+            f':rgsName "{row["RGSName"]}" .\n'
+        )
         out.write(f'{gender} a :Gender ; :label "{row["Geschlecht"]}" .\n')
         out.write(f'{age} a :AgeGroup ; :label "{row["Altersgruppe"]}" .\n')
         out.write(f'{nat} a :Nationality ; :label "{row["Nationalitaet"]}" .\n')

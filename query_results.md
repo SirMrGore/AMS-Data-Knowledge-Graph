@@ -22,18 +22,18 @@ WHERE {
 LIMIT 10
 ```
 
-| obs | region | gender | nationality | bestand |
-| --- | --- | --- | --- | --- |
-| http://example.org/ams#obs_1 | Eisenstadt | Frauen | Ausländer_innen | 15 |
-| http://example.org/ams#obs_2 | Eisenstadt | Frauen | Ausländer_innen | 7 |
-| http://example.org/ams#obs_3 | Eisenstadt | Frauen | Ausländer_innen | 115 |
-| http://example.org/ams#obs_4 | Eisenstadt | Frauen | Ausländer_innen | 2 |
-| http://example.org/ams#obs_5 | Eisenstadt | Frauen | Inländer_innen | 2 |
-| http://example.org/ams#obs_6 | Eisenstadt | Frauen | Inländer_innen | 52 |
-| http://example.org/ams#obs_7 | Eisenstadt | Frauen | Inländer_innen | 63 |
-| http://example.org/ams#obs_8 | Eisenstadt | Frauen | Inländer_innen | 256 |
-| http://example.org/ams#obs_9 | Eisenstadt | Frauen | Inländer_innen | 3 |
-| http://example.org/ams#obs_10 | Eisenstadt | Frauen | Ausländer_innen | 2 |
+| region | gender | nationality | bestand |
+| --- | --- | --- | --- |
+| Eisenstadt | Frauen | Ausländer_innen | 15
+| Eisenstadt | Frauen | Ausländer_innen | 7 |
+| Eisenstadt | Frauen | Ausländer_innen | 11
+| Eisenstadt | Frauen | Ausländer_innen | 2 |
+| Eisenstadt | Frauen | Inländer_innen | 2 |
+| Eisenstadt | Frauen | Inländer_innen | 52 |
+| Eisenstadt | Frauen | Inländer_innen | 63 |
+| Eisenstadt | Frauen | Inländer_innen | 25
+| Eisenstadt | Frauen | Inländer_innen | 3 |
+| Eisenstadt | Frauen | Ausländer_innen | 2 |
 
 ## 2_top_regions_2019_01_31
 
