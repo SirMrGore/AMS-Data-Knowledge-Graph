@@ -6,7 +6,7 @@ g.parse("labour_market.ttl", format="ttl")
 print("Triples:", len(g))
 
 q = """
-PREFIX : <http://example.org/ams#>
+BASE_URI = "https://w3id.org/ams-labour-market#"
 
 SELECT ?region ?bestand
 WHERE {
