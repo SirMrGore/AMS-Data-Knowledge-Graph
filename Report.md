@@ -1,5 +1,8 @@
 # Report: Analysis and Semantic Integration of Austrian Labour Market Data
 
+Github Repository[https://github.com/SirMrGore/AMS-Data-Knowledge-Graph], containing README with database links.
+data.gv[https://www.data.gv.at/katalog/datasets/cfe2ff7e9ad53c1ee053c630070ab111], containing original dataset.
+
 ## 1. Project Aim
 
 This project transforms Austrian labour market statistics from a CSV table into an RDF Knowledge Graph.
@@ -194,7 +197,7 @@ First, the graph is based on aggregated data. It does not represent individuals,
 
 Second, the interpretation of `BESTAND` requires care. Since it is a stock value at a reporting date, summing it across time does not produce unique person counts.
 
-Third, the current graph uses a custom vocabulary under. A more mature future version could align the model with established vocabularies such as RDF Data Cube or SKOS.
+Third, The current graph uses a custom vocabulary under https://w3id.org/ams-labour-market#; a future version could align the model with RDF Data Cube, SKOS, PROV-O and relevant Austrian administrative vocabularies.
 
 Fourth, the visualisation only shows a sample subgraph. The complete graph is too large to visualise directly in a readable way.
 
@@ -255,15 +258,19 @@ Example:
 
 #### LO3: Graph Neural Networks
 
-Graph Neural Networks are not implemented. The project focuses on graph construction and querying rather than neural graph learning.
+Graph Neural Networks are not implemented in this project. However, the project helped me understand where GNNs would fit in relation to a Knowledge Graph.
 
-This learning outcome is only acknowledged as a possible future extension.
+In the context of this project, an observation node is connected to dimensions such as region, gender, age group, nationality and date. A GNN could use these connections to learn vector representations of observations or regions. For example, regions that are connected to similar demographic and temporal unemployment patterns might receive similar learned representations. Such representations could then be used for tasks such as regional similarity analysis, anomaly detection, or predicting future labour market trends.
+
+This differs from the implemented SPARQL analysis. SPARQL queries retrieve and aggregate explicitly stored facts, while a GNN would try to learn patterns from the graph structure and node features. In this project, the focus remains on constructing and querying the RDF Knowledge Graph. Therefore, LO3 is addressed conceptually rather than technically, but the graph structure created here could serve as a possible input for future GNN-based analysis.
 
 #### LO4: Knowledge Graph Data Models
 
 The project addresses data modelling directly by converting a flat table into an observation-centred graph model.
 
-The main modelling decision is to separate observations from reusable dimensions.
+The main modelling decision is to separate observations from reusable dimensions. Instead of keeping values such as region, gender, age group and nationality only as repeated strings in the CSV, they are represented as connected graph entities. This reflects a basic Knowledge Graph data model, where facts are represented as nodes and relations rather than isolated table columns.
+
+This also shows the difference between a tabular data model and a graph data model. The CSV is useful for storage and aggregation, while the RDF model makes the semantic relationships between observations and their dimensions explicit.
 
 #### LO5: Knowledge Graph Architectures
 
